@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Login from "../components/Login";
+import Register from "../components/Register";
 
 export default function Connect() {
   const [isLogin, setIsLogin] = useState(true);
@@ -45,10 +47,7 @@ export default function Connect() {
             isLogin ? "opacity-100 z-0" : "opacity-0 -z-10"
           }`}
         >
-          <h2 className="text-2xl font-bold mb-4">Login</h2>
-          <input placeholder="email" className="mb-2 p-2 border w-3/4" />
-          <input placeholder="password" className="mb-4 p-2 border w-3/4" />
-          <button className="bg-blue-500 text-white px-6 py-2 rounded">Login</button>
+            <Login />
         </div>
 
         {/* Register Form */}
@@ -57,11 +56,7 @@ export default function Connect() {
             isLogin ? "opacity-0 -z-10" : "opacity-100 z-0"
           }`}
         >
-          <h2 className="text-2xl font-bold mb-4">Register</h2>
-          <input placeholder="email" className="mb-2 p-2 border w-3/4" />
-          <input placeholder="name" className="mb-2 p-2 border w-3/4" />
-          <input placeholder="password" className="mb-4 p-2 border w-3/4" />
-          <button className="bg-blue-500 text-white px-6 py-2 rounded">Register</button>
+          <Register whenDoneRegister={()=> setIsLogin(true)} />
         </div>
       </div>
     </div>

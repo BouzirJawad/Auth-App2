@@ -8,7 +8,7 @@ const register = async (req, res) => {
         const user = await User.findOne({email})
 
         if(user){
-            res.status(400).json({message: "User already exists!"})
+            res.status(404).json({message: "User already exists!"})
             return
         }
 
@@ -16,9 +16,7 @@ const register = async (req, res) => {
         const newUser = new User({username, email, password: hashPass, isAdmin})
 
         await newUser.save()
-        const token = generateToken(newUser._id)
-
-        res.status(201).json({token, newUser})
+        res.status(201).json({message: "User registered successfully!"})
 
     } catch (error) {
         console.error(error.message)

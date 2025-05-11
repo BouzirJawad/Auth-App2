@@ -1,22 +1,11 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
-import Login from "../components/Login"
-import Logout from "../components/Logout";
+import Logout from "../components/Logout"
+import Connect from "../pages/Connect"
 
 const Routes = () => {
     const { token } = useAuth()
-
-    const publicRoutes = [
-        {
-            path: "/home",    
-            element: <><div>Home page</div></>
-        },
-        {
-            path: "/about-us",
-            element: <div>About Us</div>,
-        },
-    ]
 
     const authRoutesOnly = [
         { 
@@ -37,17 +26,12 @@ const Routes = () => {
 
     const nonAuthRoutesOnly = [
         {
-            path: "/",
-            element: <div>Home Page</div>
-        },
-        {
             path: "/login",
-            element: <Login />
+            element: <Connect />
         }
     ]
 
     const router = createBrowserRouter([
-        ...publicRoutes,
         ...(!token ? nonAuthRoutesOnly : []),
         ...authRoutesOnly,
     ])
