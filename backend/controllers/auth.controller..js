@@ -53,7 +53,7 @@ const login = async (req, res) => {
 }
 
 const getMe = async (req, res) => {
-    req.json(req.user)
+    res.json(req.user)
 }
 
 module.exports = { register, login, getMe }

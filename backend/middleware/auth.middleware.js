@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
         }
 
         const decoded = verifyToken(token)
-        const user = await User.findById(decoded.id).select("-password")
+        const user = await User.findById(decoded.id)
 
         if(!user) {
             return res.status(401).json({message: "Token is not valid"})
@@ -20,7 +20,7 @@ const authMiddleware = async (req, res, next) => {
         next()
 
     } catch (err) {
-        res.status(401).json({message: "Token is not valid"})
+        res.status(401).json({message: "Error: Token is not valid"})
     }
 }
 
