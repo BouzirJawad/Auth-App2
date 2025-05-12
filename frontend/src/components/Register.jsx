@@ -1,26 +1,29 @@
-import React from 'react'
-import axios from "axios"
-import { useFormik } from "formik"
-import { registerSchema } from '../schemas/RegisterSchema'
-import toast from "react-hot-toast"
+import React from "react";
+import axios from "axios";
+import { useFormik } from "formik";
+import { registerSchema } from "../schemas/RegisterSchema";
+import toast from "react-hot-toast";
+import { Email } from "../icons/Email";
+import { Key } from "../icons/Key";
+import { Profile } from "../icons/Profile"
+import { Lock } from "../icons/Lock"
 
 function Register(props) {
-
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
-  useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      isAdmin: false,
-      password: "",
-      confirmPassword: "",
-    },
-    validationSchema: registerSchema,
-    onSubmit: async (values, { resetForm }) => {
-      await handleRegister();
-      resetForm()
-    },
-  })
+    useFormik({
+      initialValues: {
+        username: "",
+        email: "",
+        isAdmin: false,
+        password: "",
+        confirmPassword: "",
+      },
+      validationSchema: registerSchema,
+      onSubmit: async (values, { resetForm }) => {
+        await handleRegister();
+        resetForm();
+      },
+    });
 
   const handleRegister = async () => {
     try {
@@ -31,159 +34,187 @@ function Register(props) {
         isAdmin: values.isAdmin,
       });
 
-      console.log(res)
+      console.log(res.status.message);
 
-      if (res.status === 201 ) {
+      if (res.status === 201) {
+        toast.success(`${res.data.message}`, { duration: 3000 });
 
-        toast.success(`${res.message}`, { duration: 2000 });
-        
         setTimeout(() => {
-          props.whenDoneRegister()
+          props.whenDoneRegister();
         }, 500);
-
       } else {
-
         toast.error("Error Registering!", { duration: 2000 });
-        resetForm()
-
+        resetForm();
       }
-      
     } catch (err) {
-      if (err.res && err.res.status === 404) {
-        toast.error("Email is already in use. Please try a different one.",{duration:4000})
+      if (err.response && err.response.status === 404) {
+        toast.error("Email is already in use. Please try a different one.", {
+          duration: 2000,
+        });
       } else {
-        toast.error("Registration failed! Something went wrong!", {duration: 2000});
+        toast.error("Registration failed! Something went wrong!", {
+          duration: 2000,
+        });
       }
     }
   };
   return (
-    <>
-    <form onSubmit={handleSubmit} autoComplete="off">
-      <h2 className="text-2xl font-extrabold text-[#00EEFF] mb-4">
-        Register
-      </h2>
-
-      <div className="mb-4">
-        <label className="text-white">username</label>
-        <input
-          type="text"
-          name="username"
-          placeholder="Full Name"
-          value={values.username}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={
-            errors.username && touched.username
-              ? "input-error rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-              : "rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-          }
-        />
-        {errors.username && touched.username && (
-          <p className="text-xs mb-1 text-red-500">{errors.username}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label className="text-white">email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={
-            errors.email && touched.email
-              ? "input-error rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-              : "rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-          }
-        />
-        {errors.email && touched.email && (
-          <p className="text-xs mb-1 text-red-500">{errors.email}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label className="text-white">Role</label>
-        <select
-          name="isAdmin"
-          value={values.isAdmin === true ? "true" : "false"}
-          onBlur={handleBlur}
-          onChange={(e) =>
-            handleChange({
-              target: {
-                name: "isAdmin",
-                value: e.target.value === "true",
-              },
-            })
-          }
-          className={
-            errors.isAdmin && touched.isAdmin
-              ? "input-error rounded-md bg-[#8186BC] text-[#2c2e45] p-2 mt-1 w-full text"
-              : "rounded-md bg-[#8186BC] text-[#2c2e45] p-2 mt-1 w-full"
-          }
-        >
-          <option value="false">Member</option>
-          <option value="true">Admin</option>
-        </select>
-        {errors.isAdmin && touched.isAdmin && (
-          <p className="text-xs mb-1 text-red-500">{errors.isAdmin}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label className="text-white">password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={
-            errors.password && touched.password
-              ? "input-error rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-              : "rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-          }
-        />
-        {errors.password && touched.password && (
-          <p className="text-xs mb-1 text-red-500">{errors.password}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label className="text-white">password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="confirm password"
-          value={values.confirmPassword}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={
-            errors.confirmPassword && touched.confirmPassword
-              ? "input-error rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-              : "rounded-md bg-[#8186BC] p-2 mt-1 w-full"
-          }
-        />
-        {errors.confirmPassword && touched.confirmPassword && (
-          <p className="text-xs mb-1 text-red-500">
-            {errors.confirmPassword}
-          </p>
-        )}
-      </div>
-
-      <div className="text-center">
-        <button
-          className="bg-[#00EEFF] w-[40%] mt-7 text-md font-bold"
-          type="submit"
-        >
+    <div className="w-full">
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <h2 className="text-6xl font-extrabold text-[#007DC0] text-center mb-10">
           Register
-        </button>
-      </div>
-    </form>
-  </>
-  )
+        </h2>
+        <div className="mb-10">
+          <div className="mb-10 w-[80%] mx-auto">
+            <div className="flex mx-auto w-full">
+              <div className="bg-[#007DC0] rounded-l-md w-10 flex">
+                <Profile className="text-3xl text-white mx-auto my-auto" />
+              </div>
+              <div className="w-full">
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="username"
+                  value={values.username}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.username && touched.username
+                      ? "input-error rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#c00000]"
+                      : "rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#007DC0]"
+                  }
+                />
+              </div>
+            </div>
+            {errors.email && touched.username && (
+              <p className="text-xs mb-1 text-red-500">{errors.username}</p>
+            )}
+          </div>
+
+          <div className="mb-10 w-[80%] mx-auto">
+            <div className="flex mx-auto w-full">
+              <div className="bg-[#007DC0] rounded-l-md w-10 flex">
+                <Email className="text-3xl text-white mx-auto my-auto" />
+              </div>
+              <div className="w-full">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.email && touched.email
+                      ? "input-error rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#c00000]"
+                      : "rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#007DC0]"
+                  }
+                />
+              </div>
+            </div>
+            {errors.email && touched.email && (
+              <p className="text-xs mb-1 text-red-500">{errors.email}</p>
+            )}
+          </div>
+
+          <div className="mb-10 w-[80%] mx-auto">
+            <div className="flex mx-auto w-full">
+              <div className="bg-[#007DC0] rounded-l-md w-10 flex">
+                <Lock className="text-3xl text-white mx-auto my-auto" />
+              </div>
+              <div className="w-full">
+                <select
+                  name="isAdmin"
+                  value={values.isAdmin === true ? "true" : "false"}
+                  onBlur={handleBlur}
+                  onChange={(e) =>
+                    handleChange({
+                      target: {
+                        name: "isAdmin",
+                        value: e.target.value === "true",
+                      },
+                    })
+                  }
+                  className={
+                    errors.isAdmin && touched.isAdmin
+                      ? "input-error rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#c00000]"
+                      : "rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#007DC0]"
+                  }
+                >
+                  <option value="false">Member</option>
+                  <option value="true">Admin</option>
+                </select>
+              </div>
+            </div>
+            {errors.isAdmin && touched.isAdmin && (
+              <p className="text-xs mb-1 text-red-500">{errors.isAdmin}</p>
+            )}
+          </div>
+
+          <div className="mb-10 w-[80%] mx-auto">
+            <div className="flex mx-auto w-full">
+              <div className="bg-[#007DC0] rounded-l-md w-10 flex">
+                <Key className="text-3xl text-white mx-auto my-auto" />
+              </div>
+              <div className="w-full">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.password && touched.password
+                      ? "input-error rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#c00000]"
+                      : "rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#007DC0]"
+                  }
+                />
+              </div>
+            </div>
+            {errors.password && touched.password && (
+              <p className="text-xs mb-1 text-red-500">{errors.password}</p>
+            )}
+          </div>
+
+          <div className="mb-10 w-[80%] mx-auto">
+            <div className="flex mx-auto w-full">
+              <div className="bg-[#007DC0] rounded-l-md w-10 flex">
+                <Key className="text-3xl text-white mx-auto my-auto" />
+              </div>
+              <div className="w-full">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="confirm password"
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.confirmPassword && touched.confirmPassword
+                      ? "input-error rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#c00000]"
+                      : "rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#007DC0]"
+                  }
+                />
+              </div>
+            </div>
+            {errors.confirmPassword && touched.confirmPassword && (
+              <p className="text-xs mb-1 text-red-500">{errors.confirmPassword}</p>
+            )}
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button
+            className="bg-[#007DC0] w-[50%] text-white text-md font-bold"
+            type="submit"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
-export default Register
+export default Register;

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 html{
-    font-family:cursive
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
 @layer base {
@@ -34,7 +34,7 @@ html{
   }
 
   option{
-    @apply font-light text-white
+    @apply font-light text-[#515151]
   }
 
   .drop-menu{

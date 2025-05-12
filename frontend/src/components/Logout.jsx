@@ -11,11 +11,12 @@ function Logout() {
         navigate("/", { replace: true })
     }
 
-    setTimeout(() => {
-        handleLogout()
-    }, 3 * 1000);
   return (
-    <div>Logout Page</div>
+    <div>
+      <button onClick={()=>{handleLogout()}}>
+          Logout
+      </button>
+    </div>
   )
 }
 

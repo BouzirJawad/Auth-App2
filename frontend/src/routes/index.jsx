@@ -13,12 +13,12 @@ const Routes = () => {
             element: <ProtectedRoute />,
             children: [
                 {
-                    path: "/",
-                    element: <div>User Home Page</div>
-                },
-                {
                     path: "/logout",
                     element: <Logout />
+                },
+                {
+                    path: "*",
+                    element: <div>OPS page</div>
                 }
             ]
         }
@@ -26,15 +26,16 @@ const Routes = () => {
 
     const nonAuthRoutesOnly = [
         {
-            path: "/login",
+            path: "/",
+            element: <Connect />
+        },
+        {
+            path: "*",
             element: <Connect />
         }
     ]
 
-    const router = createBrowserRouter([
-        ...(!token ? nonAuthRoutesOnly : []),
-        ...authRoutesOnly,
-    ])
+    const router = createBrowserRouter(token ? authRoutesOnly : nonAuthRoutesOnly)
 
     return <RouterProvider router={router} />
 }
