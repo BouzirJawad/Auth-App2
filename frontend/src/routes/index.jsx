@@ -26,7 +26,7 @@ const Routes = () => {
 
     const nonAuthRoutesOnly = [
         {
-            path: "/",
+            path: "/connect",
             element: <Connect />
         },
         {

@@ -34,8 +34,6 @@ function Register(props) {
         isAdmin: values.isAdmin,
       });
 
-      console.log(res.status.message);
-
       if (res.status === 201) {
         toast.success(`${res.data.message}`, { duration: 3000 });
 
@@ -61,11 +59,11 @@ function Register(props) {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} autoComplete="off">
-        <h2 className="text-6xl font-extrabold text-[#007DC0] text-center mb-10">
+        <h2 className="text-6xl font-extrabold text-[#007DC0] text-center mb-2">
           Register
         </h2>
-        <div className="mb-10">
-          <div className="mb-10 w-[80%] mx-auto">
+        <div className="mb-2">
+          <div className="mb-2 w-[80%] mx-auto">
             <div className="flex mx-auto w-full">
               <div className="bg-[#007DC0] rounded-l-md w-10 flex">
                 <Profile className="text-3xl text-white mx-auto my-auto" />
@@ -91,7 +89,7 @@ function Register(props) {
             )}
           </div>
 
-          <div className="mb-10 w-[80%] mx-auto">
+          <div className="mb-2 w-[80%] mx-auto">
             <div className="flex mx-auto w-full">
               <div className="bg-[#007DC0] rounded-l-md w-10 flex">
                 <Email className="text-3xl text-white mx-auto my-auto" />
@@ -117,7 +115,7 @@ function Register(props) {
             )}
           </div>
 
-          <div className="mb-10 w-[80%] mx-auto">
+          <div className="mb-2 w-[80%] mx-auto">
             <div className="flex mx-auto w-full">
               <div className="bg-[#007DC0] rounded-l-md w-10 flex">
                 <Lock className="text-3xl text-white mx-auto my-auto" />
@@ -151,7 +149,7 @@ function Register(props) {
             )}
           </div>
 
-          <div className="mb-10 w-[80%] mx-auto">
+          <div className="mb-2 w-[80%] mx-auto">
             <div className="flex mx-auto w-full">
               <div className="bg-[#007DC0] rounded-l-md w-10 flex">
                 <Key className="text-3xl text-white mx-auto my-auto" />
@@ -177,7 +175,7 @@ function Register(props) {
             )}
           </div>
 
-          <div className="mb-10 w-[80%] mx-auto">
+          <div className="mb-5 w-[80%] mx-auto">
             <div className="flex mx-auto w-full">
               <div className="bg-[#007DC0] rounded-l-md w-10 flex">
                 <Key className="text-3xl text-white mx-auto my-auto" />

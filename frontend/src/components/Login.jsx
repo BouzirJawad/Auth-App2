@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { replace, useFormik } from "formik";
 import { loginSchema } from "../schemas/LoginSchema";
@@ -9,8 +9,14 @@ import { Email } from "../icons/Email";
 import { Key } from "../icons/Key";
 
 function Login() {
-  const { setToken } = useAuth();
+  const { setToken, token } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/logout");
+    }
+  }, [token, navigate])
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit  } =
     useFormik({
@@ -21,7 +27,6 @@ function Login() {
       validationSchema: loginSchema,
       onSubmit: async (values) => {
         await handleLogin();
-        navigate("/logout")
       },
     });
 
@@ -38,6 +43,7 @@ function Login() {
       if (Token) {
         setToken(Token);
         toast.success("Login successful !", { duration: 2000 });
+
       }
 
     } catch (err) {
@@ -57,11 +63,11 @@ function Login() {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} autoComplete="off">
-        <h2 className="text-6xl font-extrabold text-[#007DC0] text-center mb-20">
+        <h2 className="text-6xl font-extrabold text-[#007DC0] text-center mb-10">
           Login
         </h2>
 
-        <div className="mb-20">
+        <div className="mb-10">
           <div className="mb-10 w-[80%] mx-auto">
             <div className="flex mx-auto w-full">
               <div className="bg-[#007DC0] rounded-l-md w-10 flex">
